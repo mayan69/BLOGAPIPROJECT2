@@ -20,6 +20,13 @@ class BlogPostByUserListView(generics.ListAPIView):
     def get_queryset(self):
         # Retrieve the user ID from the URL parameter
         user_id = self.kwargs['pk']
+        try:
+            user =CustomUser.objects.get(id=user_id)
+        except CustomUser.DoesNotExist:
+            raise Http404("user does not exist")
+    
+
+
         # Filter blog posts by the specified user
         queryset = BlogPost.objects.filter(author__id=user_id)
         return queryset
@@ -62,7 +69,11 @@ class BlogPostUpdateView(generics.UpdateAPIView):
     #     # Check if the user is the author of the blog post
     #     if obj.author != self.request.user:
     #         raise PermissionDenied("You do not have permission to perform this action.")
+
     #     return obj
+
+
+
 
 
 
@@ -102,6 +113,8 @@ class BlogPostDetailView(generics.RetrieveAPIView):
 class CategoryCreateAPIView(APIView):
     permission_classes = [IsAuthenticated] 
     authentication_classes = [TokenAuthentication]
+    queryset=Category.objects.all()
+    serializer_class=CategorySerializer
 
 
     def post(self, request):
@@ -115,6 +128,55 @@ class CategoryCreateAPIView(APIView):
 class CategoryListAPIView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+
+
+
+class CategoryCreate__ListEndPoint(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+ 
+
+    def post(self, request):
+        serializer = CategorySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -15,23 +15,24 @@ import environ
 import os
 import dj_database_url
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+
+# env = environ.Env(
+#     # set casting, default value
+#     DEBUG=(bool, False)
+# )
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY ='django-insecure-i=kh&vkcx*uosz^_%t^c!o62*a+y1qb0o9+l7w=)u3_3a+(9xy'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -60,7 +61,7 @@ AUTH_USER_MODEL = 'Bloguser.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -95,10 +96,18 @@ WSGI_APPLICATION = 'BlogprojectAPI2project.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
+# DATABASES = {
+#     'default': dj_database_url.parse(env('DATABASE_URL'))  
+      
+# }
 DATABASES = {
-    'default': dj_database_url.parse(env('DATABASE_URL'))
-           
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
 
 
 REST_FRAMEWORK = {                        
@@ -152,13 +161,13 @@ MEDIA_URL="media/"
 MEDIA_ROOT=BASE_DIR/ "mediafiles"
 
 
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-WHITENOISE_MANIFEST_STRICT=False
+# STORAGES = {
+#     # ...
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
+# WHITENOISE_MANIFEST_STRICT=False
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -167,7 +176,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'custom-password-reset/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': 'custom-username-reset/{uid}/{token}',
+    # 'USERNAME_RESET_CONFIRM_URL': 'custom-username-reset/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL' : False,
     'SERIALIZERS': {
         'user_create': 'Bloguser.serializers.CustomUserCreateSerializer',

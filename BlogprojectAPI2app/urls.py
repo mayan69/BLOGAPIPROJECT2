@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import BlogPostByCategoryListView,BlogPostDeleteView,BlogPostUpdateView,BlogPostByUserListView,CategoryCreateAPIView,CategoryListAPIView,BlogPostListAPIView,BlogPostByCategoryListView,BlogPostCreateView,BlogPostDetailView
-# from .views import Category Create__ListEndPoint,BlogPostList_CreateEndpoint,BlogPostByUserListView,BlogPostDetailEndPoint,BlogPostByCategoryListView
 
 urlpatterns=[
     path('users/create-post/',BlogPostCreateView.as_view(), name='blogpost-create'),
